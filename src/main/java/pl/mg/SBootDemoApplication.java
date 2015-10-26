@@ -6,6 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceProcessor;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +47,35 @@ public class SBootDemoApplication {
 
 
 }
+
+/**
+ * Klasa z pakietu hateoas pozwalająca na przetwarzanie resource w locie i dodawanie np. linków hateoas - definiowanych samodzielnie
+ */
+@Component
+class ReservationResourceProcessor implements ResourceProcessor<Resource<Reservation>> {
+
+    @Override
+    public Resource<Reservation> process(Resource<Reservation> reservationResource) {
+        System.out.println("reservationProcessing");
+        reservationResource.add(new Link("http://s3.com/imgs/" + reservationResource.getContent().getId() + ".jpg", "profile-photo"));
+
+        return reservationResource;
+    }
+}
+
+@Controller
+class ReservationMvcController {
+
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    @RequestMapping("/reservations.php")
+    String reservations(Model model) {
+        model.addAttribute("reservations", this.reservationRepository.findAll());
+        return "reservations";
+    }
+}
+
 
 //JPA
 interface ReservationRepository extends JpaRepository<Reservation, Long> {
