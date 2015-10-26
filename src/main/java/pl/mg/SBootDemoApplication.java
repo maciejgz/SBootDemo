@@ -95,7 +95,7 @@ class ReservationMvcController {
 
 //JPA
 interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    // select * from reservation where reservation_name = :rn test
+    // select * from reservation where reservation_name = :rn tcommitest
     Collection<Reservation> findByReservationName(String rn);
 }
 
