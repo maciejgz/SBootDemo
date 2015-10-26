@@ -51,6 +51,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
+		<!-- servlet engine zamiast tomcata, tyle wystarczy, żeby zmienić serwer-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+
+		<!-- wyłączenie tomcata porpzez scope=provided -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- można też dodać wildfly itp. -->
+
 
 		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
@@ -72,14 +86,14 @@
 		</dependency>
 	</dependencies>
 	
-	<build>
+	<!--<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-	</build>
+	</build>-->
 	
 
 </project>

@@ -3,7 +3,10 @@ package pl.mg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.hateoas.Link;
@@ -26,9 +29,22 @@ public class SBootDemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SBootDemoApplication.class, args);
-
-
     }
+
+    /**
+     * Health indicator - pokazuje wartość po podłączeniu przez jsoncole
+     * @return
+     */
+    @Bean
+    HealthIndicator healthIndicator(){
+        return new HealthIndicator() {
+            @Override
+            public Health health() {
+                return Health.status("my own health status").build();
+            }
+        };
+    }
+
 
     @Bean
     CommandLineRunner runner(ReservationRepository rr) {
